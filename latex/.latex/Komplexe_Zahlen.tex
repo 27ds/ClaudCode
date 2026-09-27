@@ -1,0 +1,33 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath,amssymb}
+
+\title{Komplexe Zahlen}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Schreibweisen}
+\begin{align*}
+  \text{Kartesisch:}   \quad & z = a + bj \\
+  \text{Polar:}        \quad & z = r\,(\cos\varphi + j\sin\varphi) \\
+  \text{Exponential:}  \quad & z = r\,e^{j\varphi}
+\end{align*}
+
+\section{Umrechnung}
+\[
+  r = \sqrt{a^2 + b^2}, \qquad \varphi = \operatorname{atan2}(b, a), \qquad
+  a = r\cos\varphi, \qquad b = r\sin\varphi
+\]
+
+\section{Rechenregeln}
+\begin{align*}
+  z_1 \cdot z_2 &= r_1 r_2 \, e^{j(\varphi_1 + \varphi_2)} \\
+  \frac{z_1}{z_2} &= \frac{r_1}{r_2} \, e^{j(\varphi_1 - \varphi_2)}
+\end{align*}
+
+\end{document}

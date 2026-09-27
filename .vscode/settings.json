@@ -1,0 +1,16 @@
+{
+  // LaTeX Workshop: latexmk im Ordner der .tex-Datei starten, damit
+  // latex/.latex/.latexmkrc greift (PDF -> latex/, Hilfsdateien -> latex/.latex/build/)
+  "latex-workshop.latex.outDir": "%DIR%/..",
+  "latex-workshop.latex.recipes": [
+    { "name": "latexmk (.latexmkrc)", "tools": ["latexmk-rc"] }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk-rc",
+      "command": "latexmk",
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "%DOCFILE%"]
+    }
+  ],
+  "latex-workshop.latex.autoClean.run": "never"
+}
