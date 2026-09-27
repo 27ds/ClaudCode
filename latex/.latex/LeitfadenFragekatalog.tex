@@ -1,0 +1,182 @@
+% ==========================================================================
+%  Fragebogen / Interview-Leitfaden – Vorlage
+%  Build:  latexmk LeitfadenFragekatalog.tex   (im Ordner .latex)
+% ==========================================================================
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amssymb}        % \square
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+% --------------------------------------------------------------------------
+%  Anpassen
+% --------------------------------------------------------------------------
+\newcommand{\projekt}{Ground Speed Sensor}
+\newcommand{\dokumenttitel}{Leitfaden -- Kundeninterview}
+\newcommand{\version}{v0.1}
+
+% --------------------------------------------------------------------------
+%  Kopf-/Fusszeile
+% --------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\projekt}
+\rhead{\small\dokumenttitel}
+\lfoot{\small\version}
+\rfoot{\small Seite \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\definecolor{akzent}{RGB}{0,84,140}
+% \platzbedarf{Höhe}: Seitenumbruch, falls weniger als <Höhe> Platz bleibt
+\newcommand{\platzbedarf}[1]{\par\vskip 0pt plus #1\penalty-200\vskip 0pt plus -#1\relax}
+\makeatletter
+\renewcommand{\section}{\platzbedarf{7cm}\kern0pt\@startsection{section}{1}{0pt}%
+  {14pt plus 2pt}{6pt}{\large\bfseries\color{akzent}}}
+\makeatother
+
+% --------------------------------------------------------------------------
+%  Befehle für den Fragebogen
+% --------------------------------------------------------------------------
+\newcounter{frage}
+
+% \frage{Text}                 – nummerierte Frage
+\makeatletter
+\newcommand{\frage}[1]{%
+  \par\if@nobreak\else\platzbedarf{5cm}\fi % Frage nicht vom Antwortfeld trennen
+  \medskip\refstepcounter{frage}%
+  \noindent\textbf{F\thefrage.}\hspace{0.5em}#1\par\nopagebreak}
+\makeatother
+
+% \hinweis{Text}               – Nachfrage / Hinweis für Interviewer (grau, kursiv)
+\newcommand{\hinweis}[1]{{\small\itshape\color{gray} $\rightarrow$ #1}\par}
+
+% \linien{n}                   – n Antwortlinien
+\makeatletter
+\newcommand{\linien}[1]{%
+  \par\nopagebreak
+  \@tempcnta=#1\relax
+  \loop\ifnum\@tempcnta>0
+    \vspace{0.75cm}\noindent\rule{\linewidth}{0.3pt}\par
+    \advance\@tempcnta by -1
+  \repeat}
+\makeatother
+
+% \auswahl{Ja \item Nein \item ...}  – Ankreuzoptionen nebeneinander
+\newcommand{\kaestchen}{$\square$~}
+\newcommand{\auswahl}[1]{%
+  \par\nopagebreak\hspace*{1em}%
+  {\def\item{\hspace{1.5em}\kaestchen}\kaestchen #1}\par}
+
+% \skala{links}{rechts}        – Bewertungsskala 1–5
+\newcommand{\skala}[2]{%
+  \par\nopagebreak\smallskip
+  \begin{tabularx}{\linewidth}{@{}X*{5}{c}X@{}}
+    & 1 & 2 & 3 & 4 & 5 & \\
+    \raggedleft\small #1 & \kaestchen & \kaestchen & \kaestchen
+      & \kaestchen & \kaestchen & \small #2
+  \end{tabularx}\par}
+
+% ==========================================================================
+\begin{document}
+
+{\LARGE\bfseries\color{akzent} \dokumenttitel}\par
+\medskip
+{\large \projekt}\par
+\bigskip
+
+% ---------------------------- Interviewdaten ------------------------------
+\renewcommand{\arraystretch}{1.6}
+\begin{tabularx}{\linewidth}{@{}l X l X@{}}
+  Datum:        & \hrulefill & Interviewer/in: & \hrulefill \\
+  Unternehmen:  & \hrulefill & Gesprächspartner/in: & \hrulefill \\
+  Funktion:     & \hrulefill & Dauer:          & \hrulefill \\
+\end{tabularx}
+\renewcommand{\arraystretch}{1}
+
+\medskip
+\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{\small
+  \textbf{Einleitung (vorlesen):} Vielen Dank, dass Sie sich Zeit nehmen.
+  Ziel des Gesprächs ist es, Ihre Anforderungen und Erfahrungen zu verstehen.
+  Es gibt keine richtigen oder falschen Antworten. Die Angaben werden
+  vertraulich behandelt.}}
+
+% ==========================================================================
+\section{Unternehmen und Anwendung}
+
+\frage{Beschreiben Sie kurz Ihr Unternehmen und Ihre Rolle.}
+\linien{2}
+
+\frage{In welchen Anwendungen messen Sie heute Geschwindigkeit über Grund?}
+\hinweis{Fahrzeugtyp, Einsatzumgebung, Stückzahlen}
+\linien{3}
+
+\frage{Welche Branche trifft am ehesten zu?}
+\auswahl{Landwirtschaft \item Bau \item Bahn \item Automotive \item Andere: \rule{3cm}{0.3pt}}
+
+% ==========================================================================
+\section{Heutige Lösung}
+
+\frage{Welche Sensoren oder Verfahren setzen Sie aktuell ein?}
+\auswahl{Radar \item GNSS \item Rad-Encoder \item Optisch \item Keine}
+\linien{1}
+
+\frage{Wie zufrieden sind Sie mit der heutigen Lösung?}
+\skala{sehr unzufrieden}{sehr zufrieden}
+
+\frage{Was sind die grössten Probleme der heutigen Lösung?}
+\hinweis{Genauigkeit, Kosten, Robustheit, Integration, Wartung?}
+\linien{3}
+
+% ==========================================================================
+\section{Anforderungen}
+
+\frage{Wie wichtig sind Ihnen folgende Eigenschaften?}
+\smallskip
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\linewidth}{@{}X*{5}{>{\centering\arraybackslash}p{0.9cm}}@{}}
+  \small\itshape 1 = unwichtig, 5 = sehr wichtig & 1 & 2 & 3 & 4 & 5 \\
+  Genauigkeit           & \kaestchen & \kaestchen & \kaestchen & \kaestchen & \kaestchen \\
+  Preis                 & \kaestchen & \kaestchen & \kaestchen & \kaestchen & \kaestchen \\
+  Robustheit (Staub, Wasser, Vibration) & \kaestchen & \kaestchen & \kaestchen & \kaestchen & \kaestchen \\
+  Baugrösse / Gewicht   & \kaestchen & \kaestchen & \kaestchen & \kaestchen & \kaestchen \\
+  Einfache Integration  & \kaestchen & \kaestchen & \kaestchen & \kaestchen & \kaestchen \\
+\end{tabularx}
+\renewcommand{\arraystretch}{1}
+
+\frage{Welcher Geschwindigkeitsbereich und welche Genauigkeit werden benötigt?}
+\linien{2}
+
+\frage{Welche Schnittstellen sind erforderlich?}
+\auswahl{CAN \item RS-232/485 \item Analog \item Puls/Frequenz \item Ethernet}
+
+% ==========================================================================
+\section{Wirtschaftliches}
+
+\frage{Welchen Preis pro Sensor halten Sie für angemessen?}
+\linien{1}
+
+\frage{Wer entscheidet bei Ihnen über die Beschaffung?}
+\linien{2}
+
+% ==========================================================================
+\section{Abschluss}
+
+\frage{Gibt es etwas, das wir nicht angesprochen haben, das Ihnen wichtig ist?}
+\linien{3}
+
+\frage{Dürfen wir Sie für Rückfragen oder einen Prototyp-Test erneut kontaktieren?}
+\auswahl{Ja \item Nein}
+
+\vfill
+\small\textit{Notizen des Interviewers:}
+\linien{3}
+
+\end{document}
