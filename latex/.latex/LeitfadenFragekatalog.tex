@@ -53,6 +53,15 @@
   \par\if@nobreak\else\platzbedarf{5cm}\fi % Frage nicht vom Antwortfeld trennen
   \medskip\refstepcounter{frage}%
   \noindent\textbf{F\thefrage.}\hspace{0.5em}#1\par\nopagebreak}
+
+% \unterfrage{Text}            – Unterfrage F1.a, F1.b, ... (startet bei jeder \frage neu)
+\newcounter{unterfrage}[frage]
+\renewcommand{\theunterfrage}{\thefrage.\alph{unterfrage}}
+\newcommand{\unterfrage}[1]{%
+  \par\platzbedarf{4cm}%
+  \smallskip\refstepcounter{unterfrage}%
+  \hangindent=1.5em\hangafter=0
+  \noindent\textbf{F\theunterfrage}\hspace{0.5em}#1\par\nopagebreak}
 \makeatother
 
 % \hinweis{Text}               – Nachfrage / Hinweis für Interviewer (grau, kursiv)
@@ -116,7 +125,13 @@
 
 \frage{In welchen Anwendungen messen Sie heute Geschwindigkeit über Grund?}
 \hinweis{Fahrzeugtyp, Einsatzumgebung, Stückzahlen}
-\linien{3}
+\linien{2}
+
+\unterfrage{Auf welchem Untergrund? (Asphalt, Erde, Gras, Schiene, \ldots)}
+\linien{1}
+
+\unterfrage{Wie viele Einheiten pro Jahr?}
+\linien{1}
 
 \frage{Welche Branche trifft am ehesten zu?}
 \auswahl{Landwirtschaft \item Bau \item Bahn \item Automotive \item Andere: \rule{3cm}{0.3pt}}
